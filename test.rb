@@ -12,13 +12,21 @@ output = File.new(topic + '.txt', 'w+')
 parsed_content = Nokogiri::XML(content,&:noblanks)
 
 parsed_content.css('.conteneur-message').each do |msg|
-    
-    infos   = msg.css('.inner-head-content').css('.bloc-header').inner_html
-    message = msg.css('.inner-head-content').css('.bloc-contenu').inner_html
+
+    auteur  = msg.css('.inner-head-content').css('.bloc-header').css('.bloc-pseudo-msg').inner_text.strip
+    avatar  = msg.css('.back-img-msg div a')
+    date    = msg.css('.inner-head-content').css('.bloc-header').css('.bloc-date-msg').inner_text.strip
+    message = msg.css('.inner-head-content').css('.bloc-contenu').css('.txt-msg').inner_text
+
 
     output.write('-------------------------------------------------------------------------------------')
     output.write("\n")
-    output.write(infos)
+    output.write(auteur)
+    output.write("\n")
+    output.write(avatar)
+    output.write("\n")
+    output.write(date)
+    output.write("\n")
     output.write(message)
     output.write("\n")
 
